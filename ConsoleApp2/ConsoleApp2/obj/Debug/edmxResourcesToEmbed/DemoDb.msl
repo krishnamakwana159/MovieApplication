@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DemoDbModelStoreContainer" CdmEntityContainer="DemoDbEntities">
+    <EntitySetMapping Name="Actors">
+      <EntityTypeMapping TypeName="DemoDbModel.Actor">
+        <MappingFragment StoreEntitySet="Actors">
+          <ScalarProperty Name="ActorId" ColumnName="ActorId" />
+          <ScalarProperty Name="ActorName" ColumnName="ActorName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MovieDetails">
+      <EntityTypeMapping TypeName="DemoDbModel.MovieDetail">
+        <MappingFragment StoreEntitySet="MovieDetails">
+          <ScalarProperty Name="MovieDetailId" ColumnName="MovieDetailId" />
+          <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+          <ScalarProperty Name="ActorId" ColumnName="ActorId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Movies">
+      <EntityTypeMapping TypeName="DemoDbModel.Movy">
+        <MappingFragment StoreEntitySet="Movies">
+          <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+          <ScalarProperty Name="MovieName" ColumnName="MovieName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserFavouriteMovies">
+      <EntityTypeMapping TypeName="DemoDbModel.UserFavouriteMovy">
+        <MappingFragment StoreEntitySet="UserFavouriteMovies">
+          <ScalarProperty Name="UFavMovieId" ColumnName="UFavMovieId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Fav1" ColumnName="Fav1" />
+          <ScalarProperty Name="Fav2" ColumnName="Fav2" />
+          <ScalarProperty Name="Fav3" ColumnName="Fav3" />
+          <ScalarProperty Name="Fav4" ColumnName="Fav4" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="DemoDbModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

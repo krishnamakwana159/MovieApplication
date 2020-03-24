@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DemoDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Actors">
+    <Key>
+      <PropertyRef Name="ActorId" />
+    </Key>
+    <Property Name="ActorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ActorName" Type="varchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MovieDetails">
+    <Key>
+      <PropertyRef Name="MovieDetailId" />
+    </Key>
+    <Property Name="MovieDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MovieId" Type="int" Nullable="false" />
+    <Property Name="ActorId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Movies">
+    <Key>
+      <PropertyRef Name="MovieId" />
+    </Key>
+    <Property Name="MovieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MovieName" Type="varchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserFavouriteMovies">
+    <Key>
+      <PropertyRef Name="UFavMovieId" />
+    </Key>
+    <Property Name="UFavMovieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Fav1" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Fav2" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Fav3" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Fav4" Type="varchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Gender" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="ContactNo" Type="bigint" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_MovieDetails_Actors">
+    <End Role="Actors" Type="Self.Actors" Multiplicity="1" />
+    <End Role="MovieDetails" Type="Self.MovieDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Actors">
+        <PropertyRef Name="ActorId" />
+      </Principal>
+      <Dependent Role="MovieDetails">
+        <PropertyRef Name="ActorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MovieDetails_Movies">
+    <End Role="Movies" Type="Self.Movies" Multiplicity="1" />
+    <End Role="MovieDetails" Type="Self.MovieDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Movies">
+        <PropertyRef Name="MovieId" />
+      </Principal>
+      <Dependent Role="MovieDetails">
+        <PropertyRef Name="MovieId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserFavouriteMovies_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="UserFavouriteMovies" Type="Self.UserFavouriteMovies" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserFavouriteMovies">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DemoDbModelStoreContainer">
+    <EntitySet Name="Actors" EntityType="Self.Actors" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MovieDetails" EntityType="Self.MovieDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Movies" EntityType="Self.Movies" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserFavouriteMovies" EntityType="Self.UserFavouriteMovies" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_MovieDetails_Actors" Association="Self.FK_MovieDetails_Actors">
+      <End Role="Actors" EntitySet="Actors" />
+      <End Role="MovieDetails" EntitySet="MovieDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MovieDetails_Movies" Association="Self.FK_MovieDetails_Movies">
+      <End Role="Movies" EntitySet="Movies" />
+      <End Role="MovieDetails" EntitySet="MovieDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserFavouriteMovies_Users" Association="Self.FK_UserFavouriteMovies_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserFavouriteMovies" EntitySet="UserFavouriteMovies" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

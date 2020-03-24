@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DemoDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Actor">
+    <Key>
+      <PropertyRef Name="ActorId" />
+    </Key>
+    <Property Name="ActorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ActorName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="MovieDetails" Relationship="Self.FK_MovieDetails_Actors" FromRole="Actors" ToRole="MovieDetails" />
+  </EntityType>
+  <EntityType Name="MovieDetail">
+    <Key>
+      <PropertyRef Name="MovieDetailId" />
+    </Key>
+    <Property Name="MovieDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MovieId" Type="Int32" Nullable="false" />
+    <Property Name="ActorId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Actor" Relationship="Self.FK_MovieDetails_Actors" FromRole="MovieDetails" ToRole="Actors" />
+    <NavigationProperty Name="Movy" Relationship="Self.FK_MovieDetails_Movies" FromRole="MovieDetails" ToRole="Movies" />
+  </EntityType>
+  <EntityType Name="Movy">
+    <Key>
+      <PropertyRef Name="MovieId" />
+    </Key>
+    <Property Name="MovieId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MovieName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="MovieDetails" Relationship="Self.FK_MovieDetails_Movies" FromRole="Movies" ToRole="MovieDetails" />
+  </EntityType>
+  <EntityType Name="UserFavouriteMovy">
+    <Key>
+      <PropertyRef Name="UFavMovieId" />
+    </Key>
+    <Property Name="UFavMovieId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="Fav1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Fav2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Fav3" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Fav4" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK_UserFavouriteMovies_Users" FromRole="UserFavouriteMovies" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ContactNo" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="UserFavouriteMovies" Relationship="Self.FK_UserFavouriteMovies_Users" FromRole="Users" ToRole="UserFavouriteMovies" />
+  </EntityType>
+  <Association Name="FK_MovieDetails_Actors">
+    <End Role="Actors" Type="Self.Actor" Multiplicity="1" />
+    <End Role="MovieDetails" Type="Self.MovieDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Actors">
+        <PropertyRef Name="ActorId" />
+      </Principal>
+      <Dependent Role="MovieDetails">
+        <PropertyRef Name="ActorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MovieDetails_Movies">
+    <End Role="Movies" Type="Self.Movy" Multiplicity="1" />
+    <End Role="MovieDetails" Type="Self.MovieDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Movies">
+        <PropertyRef Name="MovieId" />
+      </Principal>
+      <Dependent Role="MovieDetails">
+        <PropertyRef Name="MovieId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserFavouriteMovies_Users">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="UserFavouriteMovies" Type="Self.UserFavouriteMovy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserFavouriteMovies">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DemoDbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Actors" EntityType="Self.Actor" />
+    <EntitySet Name="MovieDetails" EntityType="Self.MovieDetail" />
+    <EntitySet Name="Movies" EntityType="Self.Movy" />
+    <EntitySet Name="UserFavouriteMovies" EntityType="Self.UserFavouriteMovy" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_MovieDetails_Actors" Association="Self.FK_MovieDetails_Actors">
+      <End Role="Actors" EntitySet="Actors" />
+      <End Role="MovieDetails" EntitySet="MovieDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MovieDetails_Movies" Association="Self.FK_MovieDetails_Movies">
+      <End Role="Movies" EntitySet="Movies" />
+      <End Role="MovieDetails" EntitySet="MovieDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserFavouriteMovies_Users" Association="Self.FK_UserFavouriteMovies_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserFavouriteMovies" EntitySet="UserFavouriteMovies" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
