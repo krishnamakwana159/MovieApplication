@@ -147,7 +147,7 @@ namespace ConsoleApp2
                         }
                         else
                         {
-                            Console.WriteLine("Movie is not available in the list");
+                            Console.WriteLine("Actor is not available in the list");
                         }
                         break;
 
