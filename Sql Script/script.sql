@@ -1,180 +1,175 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ConsoleApp2
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            bool flag = true;
-            int choice;
-            var dbContext = new DemoDbEntities();
-            while(flag)
-            {
-                Console.WriteLine("Select an option you want to perform:");
-                Console.WriteLine("1. Add Movie");
-                Console.WriteLine("2. Delete Movie by name");
-                Console.WriteLine("3. List of Movies");
-                Console.WriteLine("4. Add Actor");
-                Console.WriteLine("5. Delete Actor by name");
-                Console.WriteLine("6. List of Actors");
-                Console.WriteLine("7. Exit");
-                Console.WriteLine("Enter your choice");
-                choice = Convert.ToInt32(Console.ReadLine());
-                switch (choice)
-                {
-                    case 1:
-                        Console.WriteLine("Enter Movie Name : ");
-                        string name = Console.ReadLine();
-
-                        var check = dbContext.Movies.Where(t => t.MovieName == name);
-                        Console.WriteLine(check.Count());
-                        if (check.Count() >= 1)
-                        {
-                            Console.WriteLine("Movie is already in the list !!");
-                        }
-                        else
-                        {
-                            var movie = new Movy()
-                            {
-                                MovieName = name
-                            };
-                            try
-                            {
-                                dbContext.Movies.Add(movie);
-                                dbContext.SaveChanges();
-                                Console.WriteLine("Movie is added !!");
-                            }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine(e);
-                            }
-
-                        }
-                        break;
-
-                    case 2:
-                        Console.WriteLine("Enter movie name to delete : ");
-                        string del = Console.ReadLine();
-                        var delMovie = dbContext.Movies.Where(t => t.MovieName == del);
-                       
-                        if (delMovie.Count() == 1)
-                        {
-                            try
-                            {
-                                dbContext.Movies.Remove(dbContext.Movies.Single(t => t.MovieName == del));
-                                dbContext.SaveChanges();
-                                Console.WriteLine("Movie is removed !!");
-                            }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine(e);
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Movie is not available in the list");                            
-                        }
-                        break;
-
-                    case 3:
-                        var movieList = dbContext.Movies;
-                        try
-                        {
-                            foreach (var movy in movieList)
-                            {
-
-                                Console.WriteLine("Movie Name : " + movy.MovieName);                                
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                        break;
-
-                    case 4:
-                        Console.WriteLine("Enter Actor Name : ");
-                        string Aname = Console.ReadLine();
-
-                        var checkActor = dbContext.Actors.Where(t => t.ActorName == Aname);
-                        
-                        if (checkActor.Count() >= 1)
-                        {
-                            Console.WriteLine("Actor is already in the list !!");
-                        }
-                        else
-                        {
-                            var actor = new Actor()
-                            {
-                                ActorName = Aname
-                            };
-                            try
-                            {
-                                dbContext.Actors.Add(actor);
-                                dbContext.SaveChanges();
-                                Console.WriteLine("Actor is added !!");
-                            }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine(e);
-                            }
-
-                        }
-                        break;
-
-                    case 5:
-                        Console.WriteLine("Enter Actor name to delete : ");
-                        string delA = Console.ReadLine();
-                        var delActor = dbContext.Actors.Where(t => t.ActorName == delA);
-
-                        if (delActor.Count() == 1)
-                        {
-                            try
-                            {
-                                dbContext.Actors.Remove(dbContext.Actors.Single(t => t.ActorName == delA));
-                                dbContext.SaveChanges();
-                                Console.WriteLine("Actor is removed !!");
-                            }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine(e);
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Movie is not available in the list");
-                        }
-                        break;
-
-                    case 6:
-                        var actorList = dbContext.Actors;
-                        try
-                        {
-                            foreach (var actor in actorList)
-                            {
-
-                                Console.WriteLine("Actor Name : " + actor.ActorName);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                        break;
-
-                    case 7:
-                        flag = false;
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-        }
-    }
-}
+USE [master]
+GO
+/****** Object:  Database [DemoDb]    Script Date: 24-03-2020 18:43:22 ******/
+CREATE DATABASE [DemoDb]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'DemoDb', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\DATA\DemoDb.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'DemoDb_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\DATA\DemoDb_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+GO
+ALTER DATABASE [DemoDb] SET COMPATIBILITY_LEVEL = 140
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [DemoDb].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [DemoDb] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [DemoDb] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [DemoDb] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [DemoDb] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [DemoDb] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [DemoDb] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [DemoDb] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [DemoDb] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [DemoDb] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [DemoDb] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [DemoDb] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [DemoDb] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [DemoDb] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [DemoDb] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [DemoDb] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [DemoDb] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [DemoDb] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [DemoDb] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [DemoDb] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [DemoDb] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [DemoDb] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [DemoDb] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [DemoDb] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [DemoDb] SET  MULTI_USER 
+GO
+ALTER DATABASE [DemoDb] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [DemoDb] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [DemoDb] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [DemoDb] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [DemoDb] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [DemoDb] SET QUERY_STORE = OFF
+GO
+USE [DemoDb]
+GO
+/****** Object:  Table [dbo].[Actors]    Script Date: 24-03-2020 18:43:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Actors](
+	[ActorId] [int] IDENTITY(1,1) NOT NULL,
+	[ActorName] [varchar](30) NOT NULL,
+ CONSTRAINT [PK_Actors] PRIMARY KEY CLUSTERED 
+(
+	[ActorId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MovieDetails]    Script Date: 24-03-2020 18:43:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MovieDetails](
+	[MovieDetailId] [int] IDENTITY(1,1) NOT NULL,
+	[MovieId] [int] NOT NULL,
+	[ActorId] [int] NOT NULL,
+ CONSTRAINT [PK_MovieDetails] PRIMARY KEY CLUSTERED 
+(
+	[MovieDetailId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Movies]    Script Date: 24-03-2020 18:43:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Movies](
+	[MovieId] [int] IDENTITY(1,1) NOT NULL,
+	[MovieName] [varchar](30) NOT NULL,
+ CONSTRAINT [PK_Movies] PRIMARY KEY CLUSTERED 
+(
+	[MovieId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserFavouriteMovies]    Script Date: 24-03-2020 18:43:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserFavouriteMovies](
+	[UFavMovieId] [int] IDENTITY(1,1) NOT NULL,
+	[UserId] [int] NOT NULL,
+	[Fav1] [varchar](30) NOT NULL,
+	[Fav2] [varchar](30) NOT NULL,
+	[Fav3] [varchar](30) NOT NULL,
+	[Fav4] [varchar](30) NOT NULL,
+ CONSTRAINT [PK_UserFavouriteMovies] PRIMARY KEY CLUSTERED 
+(
+	[UFavMovieId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 24-03-2020 18:43:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[UserId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](20) NOT NULL,
+	[Gender] [varchar](10) NOT NULL,
+	[ContactNo] [bigint] NOT NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[UserId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[MovieDetails]  WITH CHECK ADD  CONSTRAINT [FK_MovieDetails_Actors] FOREIGN KEY([ActorId])
+REFERENCES [dbo].[Actors] ([ActorId])
+GO
+ALTER TABLE [dbo].[MovieDetails] CHECK CONSTRAINT [FK_MovieDetails_Actors]
+GO
+ALTER TABLE [dbo].[MovieDetails]  WITH CHECK ADD  CONSTRAINT [FK_MovieDetails_Movies] FOREIGN KEY([MovieId])
+REFERENCES [dbo].[Movies] ([MovieId])
+GO
+ALTER TABLE [dbo].[MovieDetails] CHECK CONSTRAINT [FK_MovieDetails_Movies]
+GO
+ALTER TABLE [dbo].[UserFavouriteMovies]  WITH CHECK ADD  CONSTRAINT [FK_UserFavouriteMovies_Users] FOREIGN KEY([UserId])
+REFERENCES [dbo].[Users] ([UserId])
+GO
+ALTER TABLE [dbo].[UserFavouriteMovies] CHECK CONSTRAINT [FK_UserFavouriteMovies_Users]
+GO
+USE [master]
+GO
+ALTER DATABASE [DemoDb] SET  READ_WRITE 
+GO
